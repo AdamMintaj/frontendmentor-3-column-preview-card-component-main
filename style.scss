@@ -3,6 +3,66 @@ $cyan: #006970;
 $darkCyan: #004241;
 $gray: #F2F2F2;
 
+@mixin category($color:$orange)
+{
+    .category
+    {
+        color: white;
+        display: grid;
+        grid-template-rows: 18% 18% 32% 32%;
+        background-color: $color;
+        height:100%;
+    
+        *
+        {
+            align-self: end;
+            margin: 0;
+            margin-top: 2rem;
+            margin-left: 15%;
+        }
+
+        &__img
+        {
+            grid-row: 1/2;
+        }
+
+        &__name
+        {
+            font-family: "Big Shoulders Display";
+            font-size: 3rem;
+            grid-row: 2/3;
+        }
+
+        &__desc
+        {
+            grid-row: 3/4;
+            line-height: 1.5;
+            letter-spacing: 1px;
+            margin-right: 15%;
+        }
+
+        &__button
+        {
+            font-family: "Lexend deca";
+            background-color: white;
+            border: 2px solid white;
+            border-radius: 50px;
+            width: 50%;
+            padding: 1rem 2rem;
+            margin-bottom: 3rem;
+            color: $color;
+            transition: .7s;
+            
+            &:hover
+            {
+                cursor: pointer;
+                color: white;
+                background-color: $color;
+            }
+        }
+    }
+}
+
 *
 {
     box-sizing: border-box;
@@ -23,115 +83,51 @@ body
     background-color: $gray;
 }
 
-// this holds the three divs with car categories
 .container
 {
     display: flex;
     flex-direction: column;
     width: 90%;
-    height:100%;
     margin-left: auto;
     margin-right: auto;
     border-radius: 10px;
     overflow: hidden;
 }
 
-// this styles each of the car categories
-%category-style
-{
-    color: white;
-    display: grid;
-    grid-template-rows: 18% 18% 32% 32%;
-
-     *
-     {
-         align-self: end;
-         margin: 0;
-         margin-top: 2rem;
-         margin-left: 15%;
-     }
-
-    img
-    {
-        grid-row: 1/2;
-    }
-
-    p:first-of-type
-    {
-        font-family: "Big Shoulders Display";
-        font-size: 3rem;
-        grid-row: 2/3;
-    }
-
-    p:nth-of-type(2)
-    {
-        grid-row: 3/4;
-        line-height: 1.5;
-        letter-spacing: 1px;
-        margin-right: 15%;
-    }
-
-    button
-    {
-        font-family: "Lexend deca";
-        background-color: white;
-        border: 2px solid white;
-        border-radius: 50px;
-        width: 50%;
-        padding: 1rem 2rem;
-        margin-bottom: 3rem;
-    }
-}
-
-// this adds to each of the categories its own colour
-@mixin category-colors($color)
-{
-    background-color: $color;
-
-    button
-    {
-        color: $color;
-        transition: .7s;
-
-        &:hover
-        {
-            cursor: pointer;
-            color: white;
-            background-color: $color;
-        }
-    }
-}
-
-// these are the three car categories
 .sedans
 {
-    @extend %category-style;
-    @include category-colors($orange);
-}
-.suvs
-{
-    @extend %category-style;
-    @include category-colors($cyan);
-}
-.luxury
-{
-    @extend %category-style;
-    @include category-colors($darkCyan);
+    @include category
 }
 
-// this is the footer
+.suvs
+{
+    @include category($color: $cyan)
+}
+
+.luxury
+{
+    @include category($color:$darkCyan)
+}
+
 footer
 {
-    font-size: 11px;
+    margin-top: 1rem;
     text-align: center;
 
     a
     {
-        color:hsl(228, 45%, 44%);
+        color:$cyan;
+        text-decoration: none;
+        transition: 0.4s;
+
+        &:hover
+        {
+            color: $orange;
+        }
     }
 }
 
-// this is adjustment for desktop version
+// adjustments for desktop version
 @media only screen and (min-width: 1000px)
 {
     body
@@ -160,25 +156,36 @@ footer
 
 @media only screen and (max-height: 600px) and (max-width: 1245px)
 {
-    %category-style
+    @mixin category($color:$orange)
     {
-        grid-template-rows: 18% 18% 40% 24%;
-
-        *
+        .category
         {
-            margin-top: 0;
-        }
+            grid-template-rows: 18% 14% 43% 25%;
 
-        p:first-of-type
-        {
-            font-size: 2rem;
-            align-self: center;
-        }
+            &__name
+            {
+                font-size: 2rem;
+            }
 
-        button
-        {
-            width: 70%;
-            margin-bottom: 1.5rem;
+            &__button
+            {
+                width: 65%;
+                margin-bottom: 2rem;
+            }
         }
+    }
+    .sedans
+    {
+        @include category
+    }
+
+    .suvs
+    {
+        @include category($color: $cyan)
+    }
+
+    .luxury
+    {
+        @include category($color:$darkCyan)
     }
 }
